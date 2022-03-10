@@ -27,10 +27,14 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.handle('ipc-invoke', async (event, input: any) => {
-  const {
-    args,
-    url,
-  } = input
+  const args = input?.args
+  const url = input?.url
+  if (!url) {
+    return {
+      code: 100,
+      msg: '没有url',
+    }
+  }
   const ctx: any = {
     path: url,
     method: 'GET',

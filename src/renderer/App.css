@@ -4,19 +4,17 @@
  */
 body {
   position: relative;
-  color: white;
   height: 100vh;
-  background: linear-gradient(
-    200.96deg,
-    #fedc2a -29.09%,
-    #dd5789 51.77%,
-    #7a2c9e 129.35%
-  );
   font-family: sans-serif;
   overflow-y: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#root {
+  height: 100vh;
+  width: 100vh;
 }
 
 button {
@@ -59,4 +57,19 @@ a:hover {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+}
+
+.files {
+  background-color: rgba(255, 255, 224, 0.5);
+  padding: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.files > .file {
+  margin: 4px;
+}
+
+.file-states.waiting {
+  color: #aaa;
 }
