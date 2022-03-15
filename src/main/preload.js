@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
-    invoke (channel, ...args) {
+    invoke(channel, ...args) {
       return ipcRenderer.invoke(channel, ...args);
     },
     myPing() {

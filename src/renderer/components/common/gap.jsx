@@ -1,5 +1,5 @@
-import React from "react"
+import React from 'react';
 
 export const Gap = () => {
-    return <div style={{ height: 8 }} />
-}
+  return <div style={{ height: 8 }} />;
+};

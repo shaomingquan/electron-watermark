@@ -1,4 +1,4 @@
-import { genTask } from "./simple-ffmpeg-task.js"
+import { genTask } from "./simple-ffmpeg-task.js";
 
 export const SingeTaskScheduler = {
     tasks: [],
@@ -12,7 +12,7 @@ export const SingeTaskScheduler = {
     },
     newTask (task) {
         if (this.tasks.length > 0) {
-            throw new Error('只有一个task')
+            throw new Error('只能有一个task')
         }
         const nextTask = genTask(task)
         this.tasks.push(nextTask)

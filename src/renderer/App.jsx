@@ -77,7 +77,7 @@ const Hello = () => {
         }, 1000)
       }
     })
-  }, [task, state])
+  }, [task, state]) 
 
   let text = ''
   const files = task?.files || []
@@ -105,7 +105,7 @@ const Hello = () => {
       </>}
       {(state === WAITING || state === DONE) && 
         task?.state !== 'done' && 
-        files.length > 0 && 
+        files.length > 0 &&
         <>
           <Button color="blue" onClick={startTask}>
               开始任务
@@ -129,7 +129,8 @@ const Hello = () => {
             &nbsp;{item.file} {item.errMsg}
           </div>
         })}
-    </div>}
+        </div>
+      )}
   </div>
 };
 

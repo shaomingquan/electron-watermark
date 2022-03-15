@@ -27,13 +27,13 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.handle('ipc-invoke', async (event, input: any) => {
-  const args = input?.args
-  const url = input?.url
+  const args = input?.args;
+  const url = input?.url;
   if (!url) {
     return {
       code: 100,
       msg: '没有url',
-    }
+    };
   }
   const ctx: any = {
     path: url,
@@ -42,8 +42,8 @@ ipcMain.handle('ipc-invoke', async (event, input: any) => {
     event,
     args,
     url,
-  }
-  await ipcHandler(ctx)
+  };
+  await ipcHandler(ctx);
   return ctx.body;
 });
 
