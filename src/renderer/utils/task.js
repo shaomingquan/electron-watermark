@@ -35,5 +35,5 @@ const fileStateColorMap = {
   error: 'red',
 };
 export const getFileStateColor = (state) => {
-  return fileStateCnMap[state] || '#999';
+  return fileStateColorMap[state] || '#999';
 };

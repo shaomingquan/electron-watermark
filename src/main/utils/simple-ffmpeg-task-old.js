@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { from, map, mergeAll, defer } from 'rxjs';
 
 const { exec, execSync } = require('child_process');
 const pathToFfmpeg = require('ffmpeg-static');
@@ -46,6 +45,37 @@ export const genTask = (task) => {
   const mkdirCmd = `mkdir -p "${distDir}"`;
   execSync(mkdirCmd);
 
+  process.nextTick(() => {
+    const groupedFiles = _.chunk(files, 4);
+    (async () => {
+      for (const group of groupedFiles) {
+        const start = Date.now();
+        await Promise.all(
+          group.map((item) => {
+            const cmd = makeCmd(item.file, distDir);
+            item.state = 'processing';
+            updateTask();
+
+            return new Promise((res) => {
+              exec(cmd, (err) => {
+                if (err) {
+                  item.state = 'error';
+                  item.errMsg = err.message;
+                  updateTask();
+                  res(false);
+                } else {
+                  item.state = 'done';
+                  updateTask();
+                  res(true);
+                }
+              });
+            });
+          })
+        );
+      }
+    })();
+  });
+
   function updateTask() {
     if (_.some(files, (file) => file.state === 'processing')) {
       task.state = 'processing';
@@ -56,34 +86,6 @@ export const genTask = (task) => {
       task.state = 'done';
     }
   }
-
-  process.nextTick(() => {
-    const hOObservables = from(files).pipe(
-      map((item) => {
-        return defer(() => {
-          return new Promise((resolve, reject) => {
-            const cmd = makeCmd(item.file, distDir);
-            item.state = 'processing';
-            updateTask();
-            exec(cmd, (err) => {
-              if (err) {
-                item.state = 'error';
-                item.errMsg = err.message;
-                updateTask();
-                resolve(false);
-              } else {
-                item.state = 'done';
-                updateTask();
-                resolve(true);
-              }
-            });
-          });
-        });
-      })
-    );
-
-    hOObservables.pipe(mergeAll(4)).subscribe(() => {});
-  });
 
   return task;
 };
